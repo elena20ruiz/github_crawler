@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import base64, random
 
-
 from src.util import request as r
 
 GITHUB_URL = 'https://github.com'
@@ -13,8 +12,14 @@ Pre:
     - Keywords: Array of strings.
     - Proxy: Array of string that refers to proxies.
     - Type: String of a valid type for a github type query.
+    - Extra: Boolean
+
+Post:
+    Return an array of url from the search result.
+    Also, if extra variable is True, includes the owner and language stats into the result.
 """
 def get_query(keywords, proxies, type, extra):
+
     try:
         # 1. Parse query
         query = ''
@@ -36,9 +41,9 @@ def get_query(keywords, proxies, type, extra):
         if req and req.status_code == 200:
             result = parse_search(req.content)
         elif not req:
-            raise('Timeout by proxy. Try again')
+            raise Exception('Timeout by proxy. Try again')
         else:
-            raise('Unexpected error')
+            raise Exception('Unexpected error')
         
         if extra:
             for res in result:
@@ -46,14 +51,27 @@ def get_query(keywords, proxies, type, extra):
                 if req and req.status_code == 200:
                     res['extra'] = parse_user_info(req.content)
                 elif not req:
-                    raise('Timeout by proxy. Try again')
+                    raise Exception('Timeout by proxy. Try again')
                 else:
-                    raise('Unexpected error')
+                    raise Exception('Unexpected error')
 
         return False, result
     except Exception as e:
         return True, str(e)
     
+
+def parse_search(content):
+    soup = BeautifulSoup(content, 'html.parser')
+    repo_list = soup.find("ul", class_="repo-list")
+    repo_elements = repo_list.find_all("li")
+    output = []
+    for el in repo_elements:
+        link = el.find('a')
+        element = {
+            'url': GITHUB_URL + link['href']
+        }
+        output.append(element)
+    return output
 
 
 def parse_user_info(content):
@@ -77,18 +95,3 @@ def parse_user_info(content):
         result['language_stats'][name_lang] = pert_lang
     
     return result
-
-def parse_search(content):
-    soup = BeautifulSoup(content, 'html.parser')
-    repo_list = soup.find("ul", class_="repo-list")
-    repo_elements = repo_list.find_all("li")
-    output = []
-    for el in repo_elements:
-        link = el.find('a')
-        element = {
-            'url': GITHUB_URL + link['href']
-        }
-        output.append(element)
-    return output
-
-

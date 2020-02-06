@@ -127,3 +127,4 @@ class TestSimpleSearch(unittest.TestCase):
         err, res = github.search(self.correct_input1)
         self.assertTrue(err == TypeOfError.erequest)
         self.assertTrue(res == RequestError.timeout)
+        

@@ -2,4 +2,4 @@ beautifulsoup4
 Flask
 scrapy
 requests[security]
-proxy-requests
+coverage

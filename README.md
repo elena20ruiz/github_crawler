@@ -21,7 +21,7 @@ To run the server, please execute the following from the root directory:
 2. Install dependencies
 
     ```bash
-    pip3 install -r requirements.lock
+    pip3 install -r requirements.txt
     ```
 3. Run API server as a python module
 
@@ -38,11 +38,16 @@ To run the server, please execute the following from the root directory:
 Endpoint that implements the GitHub search and returns all the links from the search result.
 
 Required body: `object` in JSON.
+
 Required body parameters:
+
     - `type` : Repositories / Issues / Wikis
     - `proxy`: Array 
+    
     - `keyboards`: Array of string
+    
 Optional body parameters:
+
     - `extra`: Boolean
 
 #### Example request in python:

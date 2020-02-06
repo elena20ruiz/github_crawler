@@ -12,5 +12,4 @@ def make_request(url, params, proxy=None):
         }
         return requests.get(url, params=params, headers=headers, proxies=proxy)
     except Exception as e:
-        print('ERROR - make_request:', str(e))
         return None

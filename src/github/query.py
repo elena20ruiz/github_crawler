@@ -17,8 +17,12 @@ def search(keywords, proxy, s_type):
     req = r.make_request(GITHUB_URL + '/search', params, proxy)
     
     if req and req.status_code == 200:
-        return RequestError.none, parse.search_result(req.content)
-    return handle_error(req)
+        result = []
+        if s_type == 'Repositories':
+            result = parse.search_result(req.content)
+        # TODO: WIKI AND ISSUES
+        return RequestError.none, result
+    return TypeOfError.none, handle_error(req)
 
 
 def additional_info(urls, proxy):

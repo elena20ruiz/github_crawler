@@ -2,6 +2,10 @@ from src.github import GITHUB_URL
 from bs4 import BeautifulSoup
 
 def search_result(content):
+
+    with open('file.html', 'w') as f:
+        f.write(content.decode("utf-8"))
+
     soup = BeautifulSoup(content, 'html.parser')
     
     repo_list = soup.find("ul", class_="repo-list")
@@ -19,6 +23,9 @@ def search_result(content):
 
 
 def additional_info_result(content):
+    with open('file2.html', 'w') as f:
+        f.write(content.decode("utf-8"))
+
     soup = BeautifulSoup(content, 'html.parser')
 
     result = {
@@ -33,11 +40,11 @@ def additional_info_result(content):
     languages = summary.find_all('span')
 
     for l in languages:
-        aria = l['aria-label']
-        info = aria.split(' ') 
+        if 'aria-label' in l.attrs:
+            aria = l['aria-label']
+            info = aria.split(' ') 
 
-        name_lang = info[0]
-        pert_lang = float(info[1].replace('%', ''))
-        result['language_stats'][name_lang] = pert_lang
-    
+            name_lang = info[0]
+            pert_lang = float(info[1].replace('%', ''))
+            result['language_stats'][name_lang] = pert_lang
     return result

@@ -28,7 +28,7 @@ def search(data):
         return TypeOfError.erequest, error
 
     # additional info query
-    if data['extra']:
+    if 'extra' in data and data['extra']:
         error, result = query.additional_info(result, proxy)
         if error.value:
             return TypeOfError.erequest, error
@@ -45,6 +45,10 @@ def check_input(data):
         if error:
             return BAD_FORMAT[r]
 
+    if 'extra' in data:
+        error = CHECK_VARIABLE['extra'](data['extra'])
+        if error:
+            return BAD_FORMAT['extra']
 
     # Correct type
     types = ['Repositories', 'Wikis', 'Issues']

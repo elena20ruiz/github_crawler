@@ -11,9 +11,9 @@ def tags():
 
     t_error, content = github.search(data)
     if t_error == TypeOfError.einput:
-        return jsonify('Bad request: '), 400
+        return jsonify(f'Bad request: {t_error.name}'), 400
     elif t_error == TypeOfError.erequest:
-        return jsonify('Unexpected error:'), 500
+        return jsonify(f'Internal error: {t_error.name}'), 500
 
     return jsonify(content), 200
     

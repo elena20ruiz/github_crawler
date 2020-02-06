@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from src.page import github
+from src.github import github
+from src.errors import TypeOfError
 app = Flask(__name__)
 
 
@@ -8,31 +9,13 @@ app = Flask(__name__)
 def tags():
     data = request.json
 
-    required = ["keywords", "proxies", "type"]
-    for r in required:
-        if not r in data:
-            return jsonify(f'Bad request: {r} missed parameter'), 400
-    
-    types = ['Repositories', 'Wikis', 'Issues']
-    correct_type = False
-    for t in types:
-        if t in data['type']:
-            correct_type = True
+    t_error, content = github.search(data)
+    if t_error == TypeOfError.einput:
+        return jsonify('Bad request: '), 400
+    elif t_error == TypeOfError.erequest:
+        return jsonify('Unexpected error:'), 500
 
-    if not correct_type:
-        return jsonify(f'Bad request: Invalid type {t}'), 400
-
-    # Extra information
-    extra = False
-    if 'extra' in data and data['extra'] == True:
-        extra = True
-
-    error, result = github.get_query(data['keywords'], data['proxies'], data['type'], extra)
-    
-    if error:
-        return jsonify(result), 500
-
-    return jsonify(result), 200
+    return jsonify(content), 200
     
 
 @app.route("/")

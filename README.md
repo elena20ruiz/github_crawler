@@ -40,12 +40,12 @@ To run the server, please execute the following from the root directory:
 ```
 - scr/
     \github
-        - github.py :
-        - parse.py :
-        - query.py :
+        - github.py 
+        - parse.py 
+        - query.py 
     \util
-        - request.py :
+        - request.py 
 - test/
-    \github:
-    \util:
+    \github
+    \util
 ```

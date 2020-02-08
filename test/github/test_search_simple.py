@@ -1,6 +1,7 @@
-import unittest
+import unittest, time
 from src.github import github
 from src.errors import TypeOfError, RequestError
+from test import PROXIES
 
 class TestSimpleSearch(unittest.TestCase):
 
@@ -8,13 +9,13 @@ class TestSimpleSearch(unittest.TestCase):
         self.correct_input1 = {
             'type': 'Repositories',
             'keywords': ["openstack", "nova", "css"],
-            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	']
+            'proxies': PROXIES
         }
 
         self.correct_input2 = {
             'type': 'Repositories',
-            'keywords': [ "python", "django-rest-framework", "jwt"],
-            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	']
+            'keywords': ["python", "django-rest-framework", "jwt"],
+            'proxies': PROXIES
         }
 
         self.expected_result1 = [
@@ -54,7 +55,7 @@ class TestSimpleSearch(unittest.TestCase):
         err, res = github.search(self.correct_input1)
         self.assertTrue(err == TypeOfError.none)
         self.assertTrue(res == self.expected_result1)
-
+        time.sleep(1)
         err, res = github.search(self.correct_input2)
         self.assertTrue(err == TypeOfError.none)
         self.assertTrue(res == self.expected_result2)

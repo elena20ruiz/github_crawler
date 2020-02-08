@@ -1,13 +1,13 @@
 import unittest
 from src.github import github
 from src.errors import TypeOfError, InputError
-
+from test import PROXIES
 class TestInputForSearch(unittest.TestCase):
 
     def setUp(self):
         self.correct_type = 'Repositories'
         self.correct_keywords = ['js']
-        self.correct_proxies = ['179.252.97.60:80']
+        self.correct_proxies = PROXIES
         self.correct_extra = False
 
     def test_correct_required_input(self):

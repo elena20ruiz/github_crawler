@@ -16,6 +16,7 @@ To run the server, please execute the following from the root directory:
 
     ```bash
     virtualenv env --python=python3
+    source env/bin/activate
     ```
 
 2. Install dependencies
@@ -23,99 +24,28 @@ To run the server, please execute the following from the root directory:
     ```bash
     pip3 install -r requirements.txt
     ```
-3. Run API server as a python module
+3. Run tests
 
     ```bash
-    python3 -m src
+    coverage run --source=src -m uni
     ```
-4. Now is running on ` http://0.0.0.0:5000/ `
+4. Check coverage report
 
-## Endpoints
+    ```bash
+    coverage report -m
+    ```
 
+## Folder structure
 
-### `POST`: /api/github
-
-Endpoint that implements the GitHub search and returns all the links from the search result.
-
-Required body: `object` in JSON.
-
-Required body parameters:
-
-    - `type` : Repositories / Issues / Wikis
-    - `proxy`: Array 
-    
-    - `keyboards`: Array of string
-    
-Optional body parameters:
-
-    - `extra`: Boolean
-
-#### Example request in python:
-
-
-```python
-import requests
-
-url = "http://localhost:5000/api/github"
-headers = {
-  'Content-Type': 'application/json'
-}
-payload = {
-  "keywords": [
-    "openstack",
-    "nova",
-    "css"
-  ],
-  "proxies": [
-	"182.253.115.66:57733",
-	"144.91.80.51:80"
-  ],
-  "type": "Repositories",
-  "extra": false
-}
-
-response = requests.request("POST", url, headers=headers, data = payload)
 ```
-
-
-Expected output:
-
-```json
-[
-    {
-        "url": "https://github.com/atuldjadhav/DropBox-Cloud-Storage"
-    },
-    {
-        "url": "https://github.com/michealbalogun/Horizon-dashboard"
-    }
-]
-```
-
-
-Expected result of same example with `extra: true`:
-
-
-```json
-[
-    {
-        "extra": {
-            "language_stats": {
-                "CSS": 52.0,
-                "HTML": 0.8,
-                "JavaScript": 47.2
-            },
-            "owner": "atuldjadhav"
-        },
-        "url": "https://github.com/atuldjadhav/DropBox-Cloud-Storage"
-    },
-    {
-        "extra": {
-            "language_stats": {
-                "Python": 100.0
-            },
-            "owner": "michealbalogun"
-        },
-        "url": "https://github.com/michealbalogun/Horizon-dashboard"
-    }
-]
+- scr/
+    \github
+        - github.py :
+        - parse.py :
+        - query.py :
+    \util
+        - request.py :
+- test/
+    \github:
+    \util:
 ```

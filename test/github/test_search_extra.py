@@ -8,14 +8,14 @@ class TestSimpleSearch(unittest.TestCase):
         self.correct_input1 = {
             'type': 'Repositories',
             'keywords': ["openstack", "nova", "css"],
-            'proxies': ['179.252.97.60:80'],
+            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	'],
             'extra': True
         }
 
         self.correct_input2 = {
             'type': 'Repositories',
             'keywords': [ "python", "django-rest-framework", "jwt"],
-            'proxies': ['179.252.97.60:80'],
+            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	'],
             'extra': True
         }
 

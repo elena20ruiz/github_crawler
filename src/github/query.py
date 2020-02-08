@@ -22,7 +22,7 @@ def search(keywords, proxy, s_type):
             result = parse.search_result(req.content)
         # TODO: WIKI AND ISSUES
         return RequestError.none, result
-    return TypeOfError.none, handle_error(req)
+    return handle_error(req), None
 
 
 def additional_info(urls, proxy):
@@ -31,11 +31,10 @@ def additional_info(urls, proxy):
         if req and  req.status_code == 200:
             u['extra'] = parse.additional_info_result(req.content)
         else:
-            return handle_error(req)
-    return TypeOfError.none, urls
+            return handle_error(req), None
+    return RequestError.none, urls
 
 def handle_error(req):
     if not req:
         return RequestError.timeout
-    else:
-        return RequestError.unexpected_error
+    return RequestError.unexpected_error

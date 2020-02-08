@@ -8,13 +8,13 @@ class TestSimpleSearch(unittest.TestCase):
         self.correct_input1 = {
             'type': 'Repositories',
             'keywords': ["openstack", "nova", "css"],
-            'proxies': ['179.252.97.60:80']
+            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	']
         }
 
         self.correct_input2 = {
             'type': 'Repositories',
             'keywords': [ "python", "django-rest-framework", "jwt"],
-            'proxies': ['179.252.97.60:80']
+            'proxies': ['178.128.233.79:8118','109.199.77.83:41138','186.46.3.238:46849	']
         }
 
         self.expected_result1 = [
@@ -60,7 +60,7 @@ class TestSimpleSearch(unittest.TestCase):
         self.assertTrue(res == self.expected_result2)
 
     def test_timeout_bad_proxy(self):
-        self.correct_input1['proxies'] = ['1.12.124.332:3322']
+        self.correct_input1['proxies'] = ['1.12.124:3322']
         err, res = github.search(self.correct_input1)
         self.assertTrue(err == TypeOfError.erequest)
         self.assertTrue(res == RequestError.timeout)

@@ -23,9 +23,6 @@ def search_result(content):
 
 
 def additional_info_result(content):
-    with open('file2.html', 'w') as f:
-        f.write(content.decode("utf-8"))
-
     soup = BeautifulSoup(content, 'html.parser')
 
     result = {

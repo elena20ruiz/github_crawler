@@ -24,10 +24,18 @@ To run the server, please execute the following from the root directory:
     ```bash
     pip3 install -r requirements.txt
     ```
-3. Run tests
+## Run tests
+
+1. Add array of proxies
+    It is possible that the used proxies on tests are not running correctly.  In the case that the tests are not passing, please update the prioxies array.
+
+    Update variable `PROXIES` on `test/__init__.py`
+
+
+2. Run the tests from root folder
 
     ```bash
-    coverage run --source=src -m uni
+    coverage run --source=src -m unittest discover
     ```
 4. Check coverage report
 
